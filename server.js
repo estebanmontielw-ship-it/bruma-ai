@@ -21,7 +21,7 @@ async function dbFind(email) {
     { headers: sbHeaders() }
   );
   const rows = await res.json();
-  return rows.length > 0;
+  return Array.isArray(rows) && rows.length > 0;
 }
 
 async function dbInsert(email, business_type, plan) {
@@ -217,4 +217,7 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log('BRUMA AI running on port ' + PORT);
+  console.log('Supabase URL set:', !!SUPABASE_URL);
+  console.log('Supabase KEY set:', !!SUPABASE_KEY);
+  console.log('Admin user set:', !!process.env.ADMIN_USER);
 });
