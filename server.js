@@ -46,7 +46,8 @@ async function dbAll() {
     `${SUPABASE_URL}/rest/v1/leads?select=*&order=created_at.desc`,
     { headers: sbHeaders() }
   );
-  return res.json();
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
 }
 
 app.use(cors());
