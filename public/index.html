@@ -7,6 +7,15 @@
   <meta name="description" content="BRUMA AI responde cada comentario, DM y reseña en tus redes sociales — al instante, con tu voz, 24/7.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="shortcut icon" href="/favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:title" content="BRUMA AI — Tu Agente de Respuesta Social con IA">
+  <meta property="og:description" content="BRUMA AI responde cada comentario, DM y reseña en tus redes sociales — al instante, con tu voz, 24/7. Desde $39/mes.">
+  <meta property="og:url" content="https://bruma-ai.onrender.com">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BRUMA AI">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BRUMA AI — Tu Agente de Respuesta Social con IA">
+  <meta name="twitter:description" content="Responde comentarios, DMs y reseñas en redes sociales automáticamente. Desde $39/mes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -299,7 +308,7 @@
         <li><span>✓</span>1 perfil de voz de marca</li>
         <li><span>✓</span>Soporte por email</li>
       </ul>
-      <button class="pbtn pbtn-o" onclick="scrollWL()">Unirse a lista de espera</button>
+      <button class="pbtn pbtn-o" onclick="checkout('Starter')">Unirse a lista de espera</button>
     </div>
     <div class="plan feat">
       <div class="plan-badge">Más popular</div>
@@ -316,7 +325,7 @@
         <li><span>✓</span>Analíticas de respuestas</li>
         <li><span>✓</span>Soporte prioritario</li>
       </ul>
-      <button class="pbtn pbtn-g" onclick="scrollWL()">Unirse a lista de espera</button>
+      <button class="pbtn pbtn-g" onclick="checkout('Growth')">Unirse a lista de espera</button>
     </div>
     <div class="plan">
       <div class="plan-name">Agency</div>
@@ -332,7 +341,7 @@
         <li><span>✓</span>Acceso para equipo</li>
         <li><span>✓</span>Gerente de cuenta dedicado</li>
       </ul>
-      <button class="pbtn pbtn-o" onclick="scrollWL()">Unirse a lista de espera</button>
+      <button class="pbtn pbtn-o" onclick="checkout('Agency')">Unirse a lista de espera</button>
     </div>
   </div>
 </section>
@@ -438,6 +447,24 @@
       document.getElementById('rBubble').classList.add('on');
       document.getElementById('demoBtn').disabled = false;
     }, 1200);
+  }
+
+  async function checkout(plan) {
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        scrollWL();
+      }
+    } catch {
+      scrollWL();
+    }
   }
 
   async function joinWaitlist() {
